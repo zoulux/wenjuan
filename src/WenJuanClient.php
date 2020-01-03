@@ -227,11 +227,12 @@ class WenJuanClient
      * https://www.wenjuan.com/open/devdocument_v3_4_4
      * @param string $shortId 项目短id
      * @param string $respondent 答题者标识，由第三方开发者提供，查看数据详情时，对应source(来源)字段
-     * @param string $test 如果test=1, 那么为答卷预览链接，不可提交数据。
      * @param string $repeat 同一答题者respondent可重复答题，wj_repeat=1代表可重复答题
+     * @param string $callback 问卷网在答题结束时会向 callback 发起一个get请求
+     * @param string $test 如果test=1, 那么为答卷预览链接，不可提交数据。
      * @return string
      */
-    public function sheetGet($shortId, $respondent, $repeat = '', $test = '')
+    public function sheetGet($shortId, $respondent, $repeat = '', $callback = '', $test = '')
     {
         $params = [
             'wj_respondent' => $respondent,
@@ -243,6 +244,10 @@ class WenJuanClient
 
         if ($repeat) {
             $params['wj_repeat'] = $repeat;
+        }
+
+        if ($callback) {
+            $params['wj_callback'] = $callback;
         }
 
         $params = self::generateParams($params);
